@@ -24,6 +24,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.internal.schedulers.ScheduledAction;
+import rx.plugins.RxJavaSchedulersHook;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,22 +71,29 @@ public class MainActivity extends AppCompatActivity {
 
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl("https://iruca.co/api/rooms/12ebc2b1-695b-4291-ba21-c8c948308ad7/")
+                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                         .build();
                 IrucaService service = retrofit.create(IrucaService.class);
-                Response response;
-                try {
-                    response = service.putStatus(id, name, status).execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                service.putStatus(id, name, status)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<Void>() {
+                            @Override
+                            public void onCompleted() {
+                                showSnackbar(view, "complete!", Color.GREEN);
+                            }
 
-                    showSnackbar(view, "ERROR!!!", Color.RED);
-                    return;
-                }
-                if (response.isSuccessful()) {
-                    showSnackbar(view, "complete!", Color.GREEN);
-                } else {
-                    showSnackbar(view, "ERROR!!!", Color.RED);
-                }
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                                showSnackbar(view, "ERROR!!!", Color.RED);
+                            }
+
+                            @Override
+                            public void onNext(Void aVoid) {
+
+                            }
+                        });
             }
         });
 
