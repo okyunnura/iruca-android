@@ -3,6 +3,7 @@ package jp.co.tagbangers.iruca;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import jp.co.tagbangers.iruca.databinding.ActivityMainBinding;
 
@@ -39,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                showSnackbar(view, "未設定の項目があります", Color.YELLOW);
             }
         });
 
@@ -52,6 +53,18 @@ public class MainActivity extends AppCompatActivity {
             binding.appBar.content.nameValue.setText(preferences.getString("name_preference", null));
         }
 
+    }
+
+    private void showSnackbar(View view, String message, int color) {
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
+
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(color);
+
+        TextView snackbarTextView = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+        snackbarTextView.setTextColor(Color.BLACK);
+
+        snackbar.show();
     }
 
     @Override
