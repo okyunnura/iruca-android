@@ -6,7 +6,7 @@
     <RelativeLayout
         android:id="@+id/content_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -27,80 +27,96 @@
             android:layout_marginTop="51dp"
             android:descendantFocusability="blocksDescendants" />
 
-        <android.support.percent.PercentRelativeLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/statusPicker"
             android:layout_marginBottom="30dp"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/idTitle"
-                android:layout_height="wrap_content"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="end"
-                android:padding="10dp"
-                android:text="ID"
-                app:layout_widthPercent="30%">
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <requestFocus />
-            </TextView>
+                <TextView
+                    android:id="@+id/idTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="end"
+                    android:padding="10dp"
+                    android:text="ID"
+                    app:layout_widthPercent="30%">
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/idValue"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:hint="未設定"
-                android:inputType="number"
-                android:lines="1"
-                android:maxLines="1"
-                android:padding="10dp"
-                app:layout_marginLeftPercent="30%"
-                app:layout_widthPercent="70%" />
+                    <requestFocus />
+                </TextView>
 
-            <TextView
-                android:id="@+id/nameTitle"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/idTitle"
-                android:gravity="end"
-                android:padding="10dp"
-                android:text="NAME"
-                app:layout_widthPercent="30%" />
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/idValue"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:hint="未設定"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    app:layout_marginLeftPercent="30%"
+                    app:layout_widthPercent="70%" />
+            </android.support.percent.PercentRelativeLayout>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/nameValue"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/idValue"
-                android:gravity="start"
-                android:hint="未設定"
-                android:inputType="text"
-                android:lines="1"
-                android:maxLines="1"
-                android:padding="10dp"
-                app:layout_marginLeftPercent="30%"
-                app:layout_widthPercent="70%" />
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/messageTitle"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/nameTitle"
-                android:gravity="end"
-                android:padding="10dp"
-                android:text="MESSAGE"
-                app:layout_widthPercent="30%" />
+                <TextView
+                    android:id="@+id/nameTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="end"
+                    android:padding="10dp"
+                    android:text="NAME"
+                    app:layout_widthPercent="30%" />
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/messageValue"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/nameValue"
-                android:gravity="start"
-                android:inputType="text"
-                android:lines="1"
-                android:maxLines="1"
-                android:padding="10dp"
-                app:layout_marginLeftPercent="30%"
-                app:layout_widthPercent="70%" />
-        </android.support.percent.PercentRelativeLayout>
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/nameValue"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:hint="未設定"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    app:layout_marginLeftPercent="30%"
+                    app:layout_widthPercent="70%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/messageTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="end"
+                    android:padding="10dp"
+                    android:text="MESSAGE"
+                    app:layout_widthPercent="30%" />
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/messageValue"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    app:layout_marginLeftPercent="30%"
+                    app:layout_widthPercent="70%" />
+            </android.support.percent.PercentRelativeLayout>
+        </LinearLayout>
     </RelativeLayout>
 </layout>

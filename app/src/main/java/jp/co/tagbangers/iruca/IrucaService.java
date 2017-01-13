@@ -10,5 +10,5 @@ interface IrucaService {
 
     @FormUrlEncoded
     @PUT("members/{id}")
-    Observable<Void> putStatus(@Path("id") String id, @Field("name") String name, @Field("status") String status);
+    Observable<Void> putStatus(@Path("id") String id, @Field("name") String name, @Field("status") String status, @Field("message") String message);
 }

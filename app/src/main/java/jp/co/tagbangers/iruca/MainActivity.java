@@ -68,13 +68,14 @@ public class MainActivity extends AppCompatActivity {
                 editor.apply();
 
                 String status = statuses[binding.appBar.content.statusPicker.getValue()];
+                String message = binding.appBar.content.messageValue.getText().toString();
 
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl("https://iruca.co/api/rooms/12ebc2b1-695b-4291-ba21-c8c948308ad7/")
                         .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                         .build();
                 IrucaService service = retrofit.create(IrucaService.class);
-                service.putStatus(id, name, status)
+                service.putStatus(id, name, status, message)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Observer<Void>() {
