@@ -1,5 +1,6 @@
 package jp.co.tagbangers.iruca;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,14 +14,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import jp.co.tagbangers.iruca.databinding.ActivityMainBinding;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    String[] statuses = new String[]{"在席", "離席", "外出", "休暇", "電話中", "打ち合わせ中", "退社"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.appBar.content.statusPicker.setMinValue(0);
+        binding.appBar.content.statusPicker.setMaxValue(statuses.length - 1);
+        binding.appBar.content.statusPicker.setDisplayedValues(statuses);
+        binding.appBar.content.statusPicker.setWrapSelectorWheel(false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
