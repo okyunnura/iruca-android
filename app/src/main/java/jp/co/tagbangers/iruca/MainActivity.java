@@ -1,8 +1,10 @@
 package jp.co.tagbangers.iruca;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -41,6 +43,15 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (preferences.contains("id_preference")) {
+            binding.appBar.content.idValue.setText(preferences.getString("id_preference", null));
+        }
+        if (preferences.contains("name_preference")) {
+            binding.appBar.content.nameValue.setText(preferences.getString("name_preference", null));
+        }
+
     }
 
     @Override
