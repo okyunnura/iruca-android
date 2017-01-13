@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
                 final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setTitle("Loading...");
+                progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(true);
                 progressDialog.show();
 
