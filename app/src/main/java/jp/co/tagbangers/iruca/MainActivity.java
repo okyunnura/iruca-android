@@ -1,6 +1,5 @@
 package jp.co.tagbangers.iruca;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -12,23 +11,32 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.io.IOException;
+
 import jp.co.tagbangers.iruca.databinding.ActivityMainBinding;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 
     String[] statuses = new String[]{"在席", "離席", "外出", "休暇", "電話中", "打ち合わせ中", "退社"};
+
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.appBar.content.statusPicker.setMinValue(0);
         binding.appBar.content.statusPicker.setMaxValue(statuses.length - 1);
         binding.appBar.content.statusPicker.setDisplayedValues(statuses);
@@ -40,8 +48,39 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                showSnackbar(view, "未設定の項目があります", Color.YELLOW);
+            public void onClick(final View view) {
+                String id = binding.appBar.content.idValue.getText().toString();
+                String name = binding.appBar.content.nameValue.getText().toString();
+                if (TextUtils.isEmpty(id) || TextUtils.isEmpty(name)) {
+                    showSnackbar(view, "未設定の項目があります", Color.YELLOW);
+                    return;
+                }
+
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+                editor.putString("id_preference", id);
+                editor.putString("name_preference", name);
+                editor.apply();
+
+                String status = statuses[binding.appBar.content.statusPicker.getValue()];
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("https://iruca.co/api/rooms/12ebc2b1-695b-4291-ba21-c8c948308ad7/")
+                        .build();
+                IrucaService service = retrofit.create(IrucaService.class);
+                Response response;
+                try {
+                    response = service.putStatus(id, name, status).execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                    showSnackbar(view, "ERROR!!!", Color.RED);
+                    return;
+                }
+                if (response.isSuccessful()) {
+                    showSnackbar(view, "complete!", Color.GREEN);
+                } else {
+                    showSnackbar(view, "ERROR!!!", Color.RED);
+                }
             }
         });
 
