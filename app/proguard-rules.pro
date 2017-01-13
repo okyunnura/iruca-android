@@ -15,3 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-dontwarn org.apache.tools.ant.**
+-dontwarn okio.**
+-dontwarn rx.**
+-dontwarn retrofit2.**
