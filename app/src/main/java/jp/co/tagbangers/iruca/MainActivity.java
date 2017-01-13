@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
                 editor.putString("name_preference", name);
                 editor.apply();
 
-                String status = statuses[binding.appBar.content.statusPicker.getValue()];
+                final int selected = binding.appBar.content.statusPicker.getValue();
+                String status = statuses[selected];
                 String message = binding.appBar.content.messageValue.getText().toString();
 
                 Retrofit retrofit = new Retrofit.Builder()
@@ -82,6 +83,16 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onCompleted() {
                                 showSnackbar(view, "complete!", Color.GREEN);
+
+                                binding.appBar.content.messageValue.setText("");
+                                switch (selected) {
+                                    case 0:
+                                        binding.appBar.content.statusPicker.setValue(1);
+                                        break;
+                                    case 1:
+                                        binding.appBar.content.statusPicker.setValue(0);
+                                        break;
+                                }
                             }
 
                             @Override
