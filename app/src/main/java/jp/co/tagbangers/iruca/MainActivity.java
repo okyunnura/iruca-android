@@ -1,5 +1,6 @@
 package jp.co.tagbangers.iruca;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -17,18 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import java.io.IOException;
-
 import jp.co.tagbangers.iruca.databinding.ActivityMainBinding;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.internal.schedulers.ScheduledAction;
-import rx.plugins.RxJavaSchedulersHook;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -61,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
                     showSnackbar(view, "未設定の項目があります", Color.YELLOW);
                     return;
                 }
+
+                final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setCancelable(true);
+                progressDialog.show();
 
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
                 editor.putString("id_preference", id);
@@ -93,12 +92,15 @@ public class MainActivity extends AppCompatActivity {
                                         binding.appBar.content.statusPicker.setValue(0);
                                         break;
                                 }
+
+                                progressDialog.dismiss();
                             }
 
                             @Override
                             public void onError(Throwable e) {
                                 e.printStackTrace();
                                 showSnackbar(view, "ERROR!!!", Color.RED);
+                                progressDialog.dismiss();
                             }
 
                             @Override
